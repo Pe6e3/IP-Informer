@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -36,18 +37,24 @@ namespace IpInformer_WF.NET_
             {
                 line = wc.DownloadString("http://ipwho.is/" + IpField.Text + "?output=xml");
             }
-            Match match = Regex.Match(line, "<country_code>(.*?)</country_code> ");
 
-            dict["Ip"] = match.Groups[1].Value;
-            dict["Country"] = match.Groups[1].Value;
-            dict["City"] = match.Groups[1].Value;
-            dict["Currency"] = match.Groups[1].Value;
-            dict["Anonim"] = match.Groups[1].Value;
-            dict["Proxy"] = match.Groups[1].Value;
-            dict["VPN"] = match.Groups[1].Value;
-            dict["TOR"] = match.Groups[1].Value;
-            dict["Lat"] = match.Groups[1].Value;
-            dict["Long"] = match.Groups[1].Value;
+            string matchQuery = @"<ip>(?<Ip>.*?)</ip>(.*?)<country>(?<Country>.*?)</country>(.*?)<city>(?<City>.*?)</city>(.*?)<latitude>(?<Lat>.*?)</latitude>(.*?)<longitude>(?<Long>.*?)</longitude>(.*?)<img>(?<Flag>.*?)</img>";
+
+            Match match = Regex.Match(line, matchQuery);
+
+
+            dict["Ip"] = match.Groups["Ip"].ToString();
+            dict["Country"] = match.Groups["Country"].ToString();
+            dict["City"] = match.Groups["City"].ToString();
+            dict["Lat"] = match.Groups["Lat"].ToString();
+            dict["Long"] = match.Groups["Long"].ToString();
+            dict["Flag"] = match.Groups["Flag"].ToString();
+
+            Ip_field.Text = dict["Ip"].ToString();
+            country_field.Text = dict["Country"].ToString();
+            city_field.Text = dict["City"].ToString();
+            lat_field.Text = dict["Lat"].ToString();
+            long_field.Text = dict["Long"].ToString();
 
             outputLabel.Text = line;
 
@@ -65,7 +72,7 @@ namespace IpInformer_WF.NET_
             { "TOR", ""},
             { "Lat", ""},
             { "Long", ""},
-
+            { "Flag", ""},
         };
 
     }
