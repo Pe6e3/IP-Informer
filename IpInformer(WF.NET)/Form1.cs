@@ -3,7 +3,6 @@ using Svg.Transforms;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -38,10 +37,8 @@ namespace IpInformer_WF.NET_
         {
             string line = "";
             using (WebClient wc = new WebClient())
-            {
                 line = wc.DownloadString($"http://ipwho.is/{IpField.Text}?output=xml");
-                //browser.Url = new Uri($"http://ipwho.is/{IpField.Text}?output=xml");
-            }
+
 
             string matchQuery = @"<ip>(?<Ip>.*?)</ip>(.*?)<country>(?<Country>.*?)</country>(.*?)<city>(?<City>.*?)</city>(.*?)<latitude>(?<Lat>.*?)</latitude>(.*?)<longitude>(?<Long>.*?)</longitude>(.*?)<img>(?<Flag>.*?)</img>";
 
@@ -60,28 +57,34 @@ namespace IpInformer_WF.NET_
             city_field.Text = dict["City"].ToString();
             lat_field.Text = dict["Lat"].ToString();
             long_field.Text = dict["Long"].ToString();
-            textTest.Text = dict["Flag"].ToString();
 
 
-            using (WebClient webClient = new WebClient())
+            try
             {
-                string svgContent = webClient.DownloadString(dict["Flag"].ToString());
+                using (WebClient webClient = new WebClient())
+                {
+                    string svgContent = webClient.DownloadString(dict["Flag"].ToString());
 
-                SvgDocument svgDocument = SvgDocument.FromSvg<SvgDocument>(svgContent);
+                    SvgDocument svgDocument = SvgDocument.FromSvg<SvgDocument>(svgContent);
 
-                int desiredWidth = 32;  
-                int desiredHeight = 24;  
+                    int desiredWidth = 32;
+                    int desiredHeight = 24;
 
-                // Масштабируем SVG-изображение до нужных размеров
-                svgDocument.Transforms = new SvgTransformCollection();
-                svgDocument.Transforms.Add(new SvgScale(desiredWidth / svgDocument.Width, desiredHeight / svgDocument.Height));
+                    // Масштабируем SVG-изображение до нужных размеров
+                    svgDocument.Transforms = new SvgTransformCollection();
+                    svgDocument.Transforms.Add(new SvgScale(desiredWidth / svgDocument.Width, desiredHeight / svgDocument.Height));
 
-                // Создаем растровое изображение с учетом масштаба
-                Bitmap bitmap = svgDocument.Draw();
+                    // Создаем растровое изображение с учетом масштаба
+                    Bitmap bitmap = svgDocument.Draw();
 
-                flagPicture.BackgroundImage = bitmap;
-                flagPicture.Size = new Size(desiredWidth, desiredHeight); 
-                flagPicture.SizeMode = PictureBoxSizeMode.Zoom;
+                    flagPicture.BackgroundImage = bitmap;
+                    flagPicture.Size = new Size(desiredWidth, desiredHeight);
+                    flagPicture.SizeMode = PictureBoxSizeMode.Zoom;
+                }
+            }
+            catch 
+            {
+                MessageBox.Show("Ошибка. (Скорее всего введен несуществующий IP)");
             }
 
         }
