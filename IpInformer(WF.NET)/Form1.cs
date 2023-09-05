@@ -16,6 +16,7 @@ namespace IpInformer_WF.NET_
             InitializeComponent();
             IpField.TextChanged += (s, e) => CheckValidIP(s);
             startBtn.Click += (s, e) => CheckIp();
+            IpField.KeyDown += (s, e) => { if (e.KeyData == Keys.Return) CheckIp(); };
         }
 
         void CheckValidIP(object component)
@@ -36,6 +37,7 @@ namespace IpInformer_WF.NET_
         async void CheckIp()
         {
             string line = "";
+            flagPicture.BackgroundImage = null;
             using (WebClient wc = new WebClient())
                 line = wc.DownloadString($"http://ipwho.is/{IpField.Text}?output=xml");
 
@@ -52,11 +54,11 @@ namespace IpInformer_WF.NET_
             dict["Long"] = match.Groups["Long"].ToString();
             dict["Flag"] = match.Groups["Flag"].ToString();
 
-            Ip_field.Text = dict["Ip"].ToString();
-            country_field.Text = dict["Country"].ToString();
-            city_field.Text = dict["City"].ToString();
-            lat_field.Text = dict["Lat"].ToString();
-            long_field.Text = dict["Long"].ToString();
+            Ip_field.Text = dict["Ip"];
+            country_field.Text = dict["Country"];
+            city_field.Text = dict["City"];
+            lat_field.Text = dict["Lat"];
+            long_field.Text = dict["Long"];
 
 
             try
@@ -82,9 +84,20 @@ namespace IpInformer_WF.NET_
                     flagPicture.SizeMode = PictureBoxSizeMode.Zoom;
                 }
             }
-            catch 
+            catch
             {
                 MessageBox.Show("Ошибка. (Скорее всего введен несуществующий IP)");
+            }
+
+
+            try
+            {
+                //browser.Url = new Uri($"https://www.google.kz/maps/@{dict["Long"]},{dict["Lat"]}");
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка загрузки карты");
+
             }
 
         }
@@ -98,6 +111,13 @@ namespace IpInformer_WF.NET_
             { "Long", ""},
             { "Flag", ""},
         };
+
+        private void exitBtn_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+
 
     }
 }
