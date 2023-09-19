@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.IpField = new System.Windows.Forms.TextBox();
             this.startBtn = new System.Windows.Forms.Button();
             this.Ip_field = new System.Windows.Forms.Label();
@@ -41,6 +42,7 @@
             this.coordinates_lb = new System.Windows.Forms.Label();
             this.long_field = new System.Windows.Forms.Label();
             this.exitBtn = new System.Windows.Forms.Button();
+            this.mapBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.flagPicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,7 +50,7 @@
             // 
             this.IpField.BackColor = System.Drawing.Color.Silver;
             this.IpField.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.IpField.Location = new System.Drawing.Point(190, 40);
+            this.IpField.Location = new System.Drawing.Point(190, 34);
             this.IpField.Multiline = true;
             this.IpField.Name = "IpField";
             this.IpField.Size = new System.Drawing.Size(108, 28);
@@ -204,12 +206,27 @@
             this.exitBtn.UseVisualStyleBackColor = false;
             this.exitBtn.Click += new System.EventHandler(this.exitBtn_Click);
             // 
+            // mapBtn
+            // 
+            this.mapBtn.BackColor = System.Drawing.Color.Gray;
+            this.mapBtn.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.mapBtn.Enabled = false;
+            this.mapBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.mapBtn.Font = new System.Drawing.Font("W3$iP", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mapBtn.Location = new System.Drawing.Point(145, 260);
+            this.mapBtn.Name = "mapBtn";
+            this.mapBtn.Size = new System.Drawing.Size(202, 23);
+            this.mapBtn.TabIndex = 1;
+            this.mapBtn.Text = "Посмотреть на карте";
+            this.mapBtn.UseVisualStyleBackColor = false;
+            this.mapBtn.Click += new System.EventHandler(this.mapBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.ClientSize = new System.Drawing.Size(456, 309);
+            this.ClientSize = new System.Drawing.Size(456, 306);
             this.Controls.Add(this.exitBtn);
             this.Controls.Add(this.flagPicture);
             this.Controls.Add(this.country_field);
@@ -221,11 +238,13 @@
             this.Controls.Add(this.city_lb);
             this.Controls.Add(this.Ip_field);
             this.Controls.Add(this.Ip_lb);
+            this.Controls.Add(this.mapBtn);
             this.Controls.Add(this.startBtn);
             this.Controls.Add(this.IpField);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Opacity = 0.9D;
+            this.Opacity = 0.95D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "IP informer";
             ((System.ComponentModel.ISupportInitialize)(this.flagPicture)).EndInit();
@@ -249,6 +268,7 @@
         private System.Windows.Forms.Label coordinates_lb;
         private System.Windows.Forms.Label long_field;
         private System.Windows.Forms.Button exitBtn;
+        private System.Windows.Forms.Button mapBtn;
     }
 }
 

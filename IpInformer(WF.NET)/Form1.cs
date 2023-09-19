@@ -2,6 +2,7 @@
 using Svg.Transforms;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -59,7 +60,7 @@ namespace IpInformer_WF.NET_
             city_field.Text = dict["City"];
             lat_field.Text = dict["Lat"];
             long_field.Text = dict["Long"];
-
+            mapBtn.Enabled = true;
 
             try
             {
@@ -90,15 +91,6 @@ namespace IpInformer_WF.NET_
             }
 
 
-            try
-            {
-                //browser.Url = new Uri($"https://www.google.kz/maps/@{dict["Long"]},{dict["Lat"]}");
-            }
-            catch
-            {
-                MessageBox.Show("Ошибка загрузки карты");
-
-            }
 
         }
 
@@ -117,7 +109,11 @@ namespace IpInformer_WF.NET_
             Application.Exit();
         }
 
-
-
+        private void mapBtn_Click(object sender, EventArgs e)
+        {
+            string mapUrl = $"https://www.google.com/maps/@{dict["Lat"]},{dict["Long"]},10.58z?entry=ttu";
+            Process.Start(mapUrl);
+            //browser.Url = new Uri(mapUrl);
+        }
     }
 }
